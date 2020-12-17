@@ -11,7 +11,6 @@ import { MatInputModule } from '@angular/material/input';
 import { Framework, FrameworkLibraryService, JsonSchemaFormModule, JsonSchemaFormService, WidgetLibraryModule, WidgetLibraryService } from 'src/assets/ajsf-10.0.0/ajsf-core/src/public_api';
 import { fixAngularFlex } from 'src/assets/ajsf-10.0.0/ajsf-material/src/lib/angular-flex-monkey-patch';
 import { TeepeeFramework } from './teepee.framework';
-import { TEEPEE_FRAMEWORK_COMPONENTS } from './widgets/public_api';
 
 export const ANGULAR_MATERIAL_MODULES = [
   MatButtonModule,
@@ -30,22 +29,22 @@ export const ANGULAR_MATERIAL_MODULES = [
     WidgetLibraryModule,
     JsonSchemaFormModule,
   ],
-  declarations: [...TEEPEE_FRAMEWORK_COMPONENTS],
-  exports: [...TEEPEE_FRAMEWORK_COMPONENTS, ...ANGULAR_MATERIAL_MODULES],
+  declarations: [],
+  exports: [...ANGULAR_MATERIAL_MODULES],
   providers: [
     JsonSchemaFormService,
     FrameworkLibraryService,
     WidgetLibraryService,
     { provide: Framework, useClass: TeepeeFramework, multi: true },
   ],
-  entryComponents: [...TEEPEE_FRAMEWORK_COMPONENTS],
+  entryComponents: [...ANGULAR_MATERIAL_MODULES],
 })
 export class TeepeeFrameworkModule {
   constructor() {
     fixAngularFlex();
   }
 
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<any> {
     return {
       ngModule: TeepeeFrameworkModule,
       providers: [MatIconRegistry],
