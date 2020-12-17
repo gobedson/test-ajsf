@@ -1,0 +1,47 @@
+{
+  "schema":  {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "title": "Créer votre profil"
+      },
+      "name": {
+        "type": "string",
+        "title": "Nom"
+      },
+      "firstname": {
+        "type": "string",
+        "title": "Prénom"
+      },
+      "email": {
+        "type": "string",
+        "title": "Email"
+      }
+    }
+  },
+  "form" : [
+    {
+      "key": "title",
+      "htmlClass": "col-md-12",
+      "required": true
+    },
+    {
+      "key": "name",
+      "type": "input",
+      "htmlClass": "col-md-12",
+      "required" : true
+    },
+    {
+      "key": "firstname",
+      "type": "input",
+      "htmlClass": "col-md-12",
+      "required": true
+    },
+    {
+      "key": "email",
+      "type": "input",
+      "htmlClass": "col-md-12"
+    }
+  ]
+}
