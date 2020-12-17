@@ -1,51 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Framework, TabComponent } from '@ajsf/ajsf-core/src/public_api';
-import { FlexLayoutRootComponent } from './components/flex-layout-root/flex-layout-root.component';
-import { FlexLayoutSectionComponent } from './components/flex-layout-section/flex-layout-section.component';
-import {
-  AddReferenceComponent,
-  ArrayComponent,
-  AudioComponent,
-  BarcodeComponent,
-  BlankComponent,
-  CheckboxComponent,
-  ChronoComponent,
-  ConteneurComponent,
-  DatetimepickerComponent,
-  DynamicListComponent,
-  HtmlComponent,
-  IconPickerComponent,
-  InputComponent,
-  LabelDataComponent,
-  PageComponent,
-  PanelComponent,
-  RadiosComponent,
-  RfidComponent,
-  RoleMultiSelectComponent,
-  RowComponent,
-  SelectComponent,
-  SelectMultipleComponent,
-  SeparatorComponent,
-  SignatureComponent,
-  SliderComponent,
-  TeepeeFrameworkComponent,
-  TextareaComponent,
-  TPColorPickerComponent,
-  SelectFrameworkComponent,
-  SelectWidgetComponent,
-  RoleManagerComponent,
-  UploadComponent,
-  ConcatComponent,
-  InputNumberComponent,
-  IdUniqueComponent,
-  IncrementComponent,
-  PictureComponent,
-} from './widgets/public_api';
+import { Framework } from 'src/assets/ajsf-10.0.0/ajsf-core/src/public_api';
+import { InputComponent } from '../widgets/input/input.component';
+import { TeepeeFrameworkComponent } from './teepee-framework.component';
 
 @Injectable()
 export class TeepeeFramework extends Framework {
   name = 'teepee';
-
   framework = TeepeeFrameworkComponent;
 
   widgets = {
@@ -53,48 +13,5 @@ export class TeepeeFramework extends Framework {
     text: InputComponent,
     password: InputComponent,
     input: InputComponent,
-    number: InputNumberComponent,
-    integer: InputNumberComponent,
-    radios: RadiosComponent,
-    textarea: TextareaComponent,
-    barcode: BarcodeComponent,
-    rfid: RfidComponent,
-    rfid_tag: RfidComponent,
-    blank: BlankComponent,
-    html: HtmlComponent,
-    slider: SliderComponent,
-    separator: SeparatorComponent,
-    chrono: ChronoComponent,
-    sign: SignatureComponent,
-    datepicker: DatetimepickerComponent,
-    timepicker: DatetimepickerComponent,
-    datetimepicker: DatetimepickerComponent,
-    dynamiclist: DynamicListComponent,
-    labeldata: LabelDataComponent,
-    array: ArrayComponent,
-    root: FlexLayoutRootComponent,
-    section: FlexLayoutSectionComponent,
-    $ref: AddReferenceComponent,
-    panel: PanelComponent,
-    tabs: PageComponent,
-    tab: TabComponent,
-    container: ConteneurComponent,
-    checkboxes: CheckboxComponent,
-    audio: AudioComponent,
-    colorpicker: TPColorPickerComponent,
-    select_icon: IconPickerComponent,
-    multiselect: RoleMultiSelectComponent,
-    select: SelectComponent,
-    selectMultiple: SelectMultipleComponent,
-    objecttype_multiselect: SelectMultipleComponent,
-    row: RowComponent,
-    'app-select-framework': SelectFrameworkComponent,
-    'app-select-widget': SelectWidgetComponent,
-    rights_array: RoleManagerComponent,
-    upload: UploadComponent,
-    concat: ConcatComponent,
-    increment: IncrementComponent,
-    uniquereference: IdUniqueComponent,
-    image: PictureComponent,
   };
 }
