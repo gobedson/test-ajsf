@@ -70,7 +70,7 @@ export class TeepeeComponent implements OnInit, OnDestroy {
     @Inject(MAT_FORM_FIELD_DEFAULT_OPTIONS)
     @Optional()
     public matFormFieldDefaultOptions,
-    @Inject(MAT_LABEL_GLOBAL_OPTIONS)
+    @Inject(MAT_FORM_FIELD_DEFAULT_OPTIONS)
     @Optional()
     public matLabelGlobalOptions,
     protected readonly _ngZone: NgZone,

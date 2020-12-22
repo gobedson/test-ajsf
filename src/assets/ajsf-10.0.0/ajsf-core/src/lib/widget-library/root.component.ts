@@ -1,29 +1,32 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { TeepeeService } from 'src/app/shared/component/teepee-form/teepee.service';
 import { JsonSchemaFormService } from '../json-schema-form.service';
+
 
 
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'root-widget',
   template: `
-    <div *ngFor="let layoutItem of layout; let i = index"
+    <div *ngFor="let layoutItem of layout; let i = index; trackBy:trackByKey"
       [class.form-flex-item]="isFlexItem"
       [style.align-self]="(layoutItem.options || {})['align-self']"
       [style.flex-basis]="getFlexAttribute(layoutItem, 'flex-basis')"
       [style.flex-grow]="getFlexAttribute(layoutItem, 'flex-grow')"
       [style.flex-shrink]="getFlexAttribute(layoutItem, 'flex-shrink')"
       [style.order]="(layoutItem.options || {}).order">
-      <div
-        [dataIndex]="layoutItem?.arrayItem ? (dataIndex || []).concat(i) : (dataIndex || [])"
-        [layoutIndex]="(layoutIndex || []).concat(i)"
-        [layoutNode]="layoutItem"
-        [orderable]="isDraggable(layoutItem)">
-        <select-framework-widget *ngIf="showWidget(layoutItem)"
+        <div *ngIf="layoutItem?.options?.visible"
           [dataIndex]="layoutItem?.arrayItem ? (dataIndex || []).concat(i) : (dataIndex || [])"
           [layoutIndex]="(layoutIndex || []).concat(i)"
-          [layoutNode]="layoutItem"></select-framework-widget>
+          [layoutNode]="layoutItem"
+          [orderable]="isDraggable(layoutItem)">
+          <select-framework-widget *ngIf="showWidget(layoutItem)"
+            [dataIndex]="layoutItem?.arrayItem ? (dataIndex || []).concat(i) : (dataIndex || [])"
+            [layoutIndex]="(layoutIndex || []).concat(i)"
+            [layoutNode]="layoutItem"></select-framework-widget>
+        </div>
       </div>
-    </div>`,
+    `,
   styles: [`
     [draggable=true] {
       transition: all 150ms cubic-bezier(.4, 0, .2, 1);
@@ -55,10 +58,11 @@ export class RootComponent {
   @Input() isOrderable: boolean;
   @Input() isFlexItem = false;
 
-  constructor(
-    private jsf: JsonSchemaFormService
-  ) { }
 
+  constructor(
+    private jsf: JsonSchemaFormService,
+  ) { }
+  
   isDraggable(node: any): boolean {
     return node.arrayItem && node.type !== '$ref' &&
       node.arrayItemType === 'list' && this.isOrderable !== false;
@@ -74,5 +78,9 @@ export class RootComponent {
 
   showWidget(layoutNode: any): boolean {
     return this.jsf.evaluateCondition(layoutNode, this.dataIndex);
+  }
+
+  public trackByKey(index: number, layout) {
+    return layout._id;
   }
 }

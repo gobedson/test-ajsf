@@ -1,17 +1,17 @@
 <div [class]="options?.htmlClass || ''">
   <div class='calc-width-like-mat-field'>
-    <mat-form-field class="example-form-field">
-      <mat-label>Clearable input</mat-label>
+    <!-- <mat-form-field class="example-form-field"> -->
+      <!-- <mat-label>Clearable input</mat-label> -->
       <input matInput type="text" [(ngModel)]="controlValue">
       <button mat-button *ngIf="controlValue" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
         <mat-icon>close</mat-icon>
       </button>
-    </mat-form-field>
+    <!-- </mat-form-field> -->
     <label class="hint"
       *ngIf="options?.description && (!options?.showErrors || !options?.errorMessage)"
       fxLayout-align="start" [innerHTML]="options?.description"></label>
-    <mat-error *ngIf="options?.showErrors && options?.errorMessage" [innerHTML]="options?.patternError"></mat-error>
-    <mat-error *ngIf="options?.showErrors && options?.errorMessage" [innerHTML]="options?.errorMessage"></mat-error>
+    <!-- <mat-error *ngIf="options?.showErrors && options?.errorMessage" [innerHTML]="options?.patternError"></mat-error>
+    <mat-error *ngIf="options?.showErrors && options?.errorMessage" [innerHTML]="options?.errorMessage"></mat-error> -->
   </div>
 </div>
 

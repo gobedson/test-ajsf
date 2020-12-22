@@ -6,8 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { InputComponent } from './input.component';
 
 @NgModule({
-  declarations: [InputComponent],
-  exports: [InputComponent],
   imports: [CommonModule, FormsModule, MatFormFieldModule, MatIconModule],
+  exports: [InputComponent],
+  declarations: [InputComponent],
 })
 export class InputModule {}

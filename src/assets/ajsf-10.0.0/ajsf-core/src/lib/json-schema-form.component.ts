@@ -27,6 +27,8 @@ import { JsonPointer } from './shared/jsonpointer.functions';
 import { JsonSchemaFormService } from './json-schema-form.service';
 import { resolveSchemaReferences } from './shared/json-schema.functions';
 import { WidgetLibraryService } from './widget-library/widget-library.service';
+import { TeepeeService } from 'src/app/shared/component/teepee-form/teepee.service';
+import { map, tap } from 'rxjs/operators';
 
 
 /**
@@ -137,6 +139,7 @@ export class JsonSchemaFormComponent implements ControlValueAccessor, OnChanges,
   @Output() modelChange = new EventEmitter<any>();
   @Output() formDataChange = new EventEmitter<any>();
   @Output() ngModelChange = new EventEmitter<any>();
+  @Output() onBlur = new EventEmitter<any>();
 
   onChange: Function;
   onTouched: Function;
@@ -177,6 +180,7 @@ export class JsonSchemaFormComponent implements ControlValueAccessor, OnChanges,
     this.loadScripts();
     this.loadStyleSheets();
   }
+
   ngOnInit() {
     this.updateForm();
     this.loadAssets();

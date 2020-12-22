@@ -1,23 +1,33 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-
+import { Component, Input, ViewChild } from "@angular/core";
+import { JsonSchemaFormService } from "src/assets/ajsf-10.0.0/ajsf-core/src/public_api";
+import { TeepeeService } from "./teepee.service";
 
 @Component({
   selector: 'app-teepee-form',
   templateUrl: './teepee-form.component.html',
 })
-export class TeepeeFormComponent implements OnInit, OnDestroy {
-
-  @Input() model: any;
-
+export class TeepeeFormComponent {
+  @Input() model: any = {};
   @Input() form: any;
-
   @Input() schema: any;
+  @ViewChild('myForm')
+  public myForm;
+
+  public data = {
+    schema: null,
+    form: null,
+    model: null,
+  };
+  public newModel;
+  public newForm;
+  public newSchema;
 
   jsonFormOptions = {
     addSubmit: false, // Add a submit button if layout does not have one
     debug: false, // Don't show inline debugging information
     loadExternalAssets: true, // Load external css and JavaScript for frameworks
     defautWidgetOptions: {
+      visible: true,
       feedback: true,
       validationMessages: {
         required: 'Champs requis!',
@@ -32,15 +42,32 @@ export class TeepeeFormComponent implements OnInit, OnDestroy {
     }, // Show inline feedback icons
   };
 
-  constructor() {}
-
-  ngOnDestroy(): void {
-    throw new Error("Method not implemented.");
+  constructor(
+    private readonly teepeeService: TeepeeService,
+    private readonly jsf: JsonSchemaFormService,
+  ) {}
+  
+  public ngOnInit(): void {
+    this.data = this.teepeeService.computeForm(this.schema, this.form, this.model);
   }
 
-  ngOnInit(): void {
-    throw new Error("Method not implemented.");
+  public valuesChanged(values: { [key: string]: unknown }) {
+    if (this.myForm) {
+      const computedFields = this.teepeeService.computeForm(this.schema, this.form, values);
+      this.jsf.layout = this.jsf.layout.map((layout) => {
+        const computedField = computedFields.form.find((field: any) => field.key === layout.name);
+        if (computedField) {
+          return {
+            ...layout,
+            options: {
+              ...layout.options,
+              visible: computedField.hasOwnProperty('visible') ? computedField.visible : true
+            }
+          }
+        }
+
+        return layout;
+      });
+    }
   }
-
-
-}
+} 

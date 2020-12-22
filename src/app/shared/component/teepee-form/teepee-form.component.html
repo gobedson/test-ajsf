@@ -1,12 +1,12 @@
 <div>
-<json-schema-form
-    [schema]="schema"
-    [layout]="form"
-    [(data)]="model"
-    [options]="jsonFormOptions"
-    #myForm
-    [framework]="'teepee'"
-  >
-</json-schema-form>
+  <json-schema-form
+      [schema]="data.schema"
+      [layout]="data.form"
+      [(data)]="data.model"
+      [options]="jsonFormOptions"
+      #myForm
+      framework="no-framework"
+      (onChanges)="valuesChanged($event)">
+  </json-schema-form>
 </div>
 

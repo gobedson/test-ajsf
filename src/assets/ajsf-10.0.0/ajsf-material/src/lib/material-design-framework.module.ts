@@ -1,10 +1,4 @@
-import {
-  Framework,
-  FrameworkLibraryService,
-  JsonSchemaFormModule,
-  JsonSchemaFormService,
-  WidgetLibraryModule, WidgetLibraryService
-} from '@ajsf/ajsf-core/src/public_api';
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -30,6 +24,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Framework, FrameworkLibraryService, JsonSchemaFormModule, JsonSchemaFormService, WidgetLibraryModule, WidgetLibraryService } from 'src/assets/ajsf-10.0.0/ajsf-core/src/public_api';
 import { fixAngularFlex } from './angular-flex-monkey-patch';
 import { MaterialDesignFramework } from './material-design.framework';
 import { MATERIAL_FRAMEWORK_COMPONENTS } from './widgets/public_api';

@@ -154,7 +154,7 @@
     "typeFormat": "string",
     "querybuildercontent": {
       "type": "Group",
-      "operator": "&&",
+      "operator": "||",
       "rules": [{
         "type": "Group",
         "operator": "&&",

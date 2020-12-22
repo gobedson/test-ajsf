@@ -1,5 +1,4 @@
 import { Component, Inject, NgZone, Optional } from '@angular/core';
-import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
@@ -21,7 +20,7 @@ export class InputComponent extends TeepeeComponent {
     @Inject(MAT_FORM_FIELD_DEFAULT_OPTIONS)
     @Optional()
     public matFormFieldDefaultOptions,
-    @Inject(MAT_LABEL_GLOBAL_OPTIONS)
+    @Inject(MAT_FORM_FIELD_DEFAULT_OPTIONS)
     @Optional()
     public matLabelGlobalOptions,
     protected readonly _ngZone: NgZone,
