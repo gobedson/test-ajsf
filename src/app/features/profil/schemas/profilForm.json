@@ -1,47 +1,239 @@
 {
-  "schema":  {
+  "schema": {
     "type": "object",
     "properties": {
-      "title": {
+      "Choix2": {
         "type": "string",
-        "title": "Créer votre profil"
+        "format": "input",
+        "views": ["TestVisibilite"],
+        "dbtype": "string"
       },
-      "name": {
+      "Choix1": {
         "type": "string",
-        "title": "Nom"
+        "format": "input",
+        "views": ["TestVisibilite"],
+        "dbtype": "string"
       },
-      "firstname": {
+      "Choix3": {
         "type": "string",
-        "title": "Prénom"
+        "format": "input",
+        "views": ["TestVisibilite"],
+        "dbtype": "string",
+        "personnalData": false,
+        "uniquekey": false,
+        "searchable": false,
+        "trackchange": false
       },
-      "email": {
+      "Choix4": {
         "type": "string",
-        "title": "Email"
+        "format": "input",
+        "views": ["TestVisibilite"],
+        "dbtype": "string",
+        "personnalData": false,
+        "uniquekey": false,
+        "searchable": false,
+        "trackchange": false
       }
     }
   },
-  "form" : [
-    {
-      "key": "title",
-      "htmlClass": "col-md-12",
-      "required": true
+  "form": [{
+    "tostring": false,
+    "searchable": false,
+    "readonly": false,
+    "required": false,
+    "uniquekey": false,
+    "trackchange": false,
+    "title": "Choix 1",
+    "placeholder": "",
+    "type": "input",
+    "export": true,
+    "import": true,
+    "typeFormat": "string",
+    "querybuildercontent": {
+      "type": "Group",
+      "operator": "&&",
+      "rules": []
     },
-    {
-      "key": "name",
-      "type": "input",
-      "htmlClass": "col-md-12",
-      "required" : true
+    "personalData": false,
+    "htmlClass": "col-md-12",
+    "key": "Choix1",
+    "selected": false,
+    "oldKey": "Choix1",
+    "id": "$1$"
+  }, {
+    "tostring": false,
+    "searchable": false,
+    "readonly": false,
+    "required": false,
+    "uniquekey": false,
+    "trackchange": false,
+    "title": "Choix 2",
+    "placeholder": "",
+    "type": "input",
+    "export": true,
+    "import": true,
+    "typeFormat": "string",
+    "querybuildercontent": {
+      "type": "Group",
+      "operator": "&&",
+      "rules": []
     },
-    {
-      "key": "firstname",
-      "type": "input",
-      "htmlClass": "col-md-12",
-      "required": true
+    "personalData": false,
+    "htmlClass": "col-md-12",
+    "key": "Choix2",
+    "selected": false,
+    "id": "$2$"
+  }, {
+    "tostring": false,
+    "searchable": false,
+    "readonly": false,
+    "required": false,
+    "uniquekey": false,
+    "trackchange": false,
+    "title": "Choix 3",
+    "placeholder": "",
+    "type": "input",
+    "export": true,
+    "import": true,
+    "typeFormat": "string",
+    "querybuildercontent": {
+      "type": "Group",
+      "operator": "&&",
+      "rules": [{
+        "type": "SimpleRule",
+        "condition": "==",
+        "obj1selected": {
+          "value": "Choix1",
+          "name": "Choix1",
+          "type": "property",
+          "format": "input",
+          "is": "string"
+        },
+        "obj2selected": {
+          "value": "Choix2",
+          "name": "Choix2",
+          "type": "property",
+          "format": "input",
+          "is": "string"
+        }
+      }, {
+        "type": "SimpleRule",
+        "condition": "!=",
+        "obj1selected": {
+          "value": "Choix1",
+          "name": "Choix1",
+          "type": "property",
+          "format": "input",
+          "is": "string"
+        },
+        "obj2selected": {
+          "value": "val",
+          "name": "Constante****",
+          "type": "constance",
+          "constance": ""
+        }
+      }]
     },
-    {
-      "key": "email",
-      "type": "input",
-      "htmlClass": "col-md-12"
-    }
-  ]
+    "personalData": false,
+    "htmlClass": "col-md-12",
+    "key": "Choix3",
+    "selected": false,
+    "id": "$3$"
+  }, {
+    "tostring": false,
+    "searchable": false,
+    "readonly": false,
+    "required": false,
+    "uniquekey": false,
+    "trackchange": false,
+    "title": "Choix 4",
+    "placeholder": "",
+    "type": "input",
+    "export": true,
+    "import": true,
+    "typeFormat": "string",
+    "querybuildercontent": {
+      "type": "Group",
+      "operator": "&&",
+      "rules": [{
+        "type": "Group",
+        "operator": "&&",
+        "rules": [{
+          "type": "SimpleRule",
+          "condition": "!=",
+          "obj1selected": {
+            "value": "Choix1",
+            "name": "Choix1",
+            "type": "property",
+            "format": "input",
+            "is": "string"
+          },
+          "obj2selected": {
+            "value": "val",
+            "name": "Constante****",
+            "type": "constance",
+            "constance": ""
+          }
+        }, {
+          "type": "SimpleRule",
+          "condition": "==",
+          "obj1selected": {
+            "value": "Choix1",
+            "name": "Choix1",
+            "type": "property",
+            "format": "input",
+            "is": "string"
+          },
+          "obj2selected": {
+            "value": "Choix3",
+            "name": "Choix3",
+            "type": "property",
+            "format": "input",
+            "is": "string"
+          }
+        }]
+      }, {
+        "type": "Group",
+        "operator": "&&",
+        "rules": [{
+          "type": "SimpleRule",
+          "condition": "!=",
+          "obj1selected": {
+            "value": "Choix2",
+            "name": "Choix2",
+            "type": "property",
+            "format": "input",
+            "is": "string"
+          },
+          "obj2selected": {
+            "value": "val",
+            "name": "Constante****",
+            "type": "constance",
+            "constance": ""
+          }
+        }, {
+          "type": "SimpleRule",
+          "condition": "==",
+          "obj1selected": {
+            "value": "Choix2",
+            "name": "Choix2",
+            "type": "property",
+            "format": "input",
+            "is": "string"
+          },
+          "obj2selected": {
+            "value": "Choix3",
+            "name": "Choix3",
+            "type": "property",
+            "format": "input",
+            "is": "string"
+          }
+        }]
+      }]
+    },
+    "personalData": false,
+    "htmlClass": "col-md-12",
+    "key": "Choix4",
+    "id": "$4$"
+  }]
 }
