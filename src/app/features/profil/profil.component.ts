@@ -6,7 +6,6 @@ import profilForm from 'src/app/features/profil/schemas/profilForm.json';
   styleUrls: ['./profil.component.scss']
 })
 export class ProfilComponent {
-
-  form = profilForm.form;
-  schema = profilForm.schema.properties;
+  public profilForm = profilForm;
+  public data = {};
 }

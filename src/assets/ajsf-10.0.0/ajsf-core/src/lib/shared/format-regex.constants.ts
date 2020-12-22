@@ -55,7 +55,7 @@ export const jsonSchemaFormatTests = {
   'json-pointer': /^(?:\/(?:[^~/]|~0|~1)*)*$|^#(?:\/(?:[a-z0-9_\-.!$&'()*+,;:=@]|%[0-9a-f]{2}|~0|~1)*)*$/i,
 
   'relative-json-pointer': /^(?:0|[1-9][0-9]*)(?:#|(?:\/(?:[^~/]|~0|~1)*)*)$/,
-
+  'input': /$/,
   'regex': function (str) {
     if (/[^\\]\\Z/.test(str)) { return false; }
     try {
@@ -70,4 +70,4 @@ export const jsonSchemaFormatTests = {
 export type JsonSchemaFormatNames =
   'date' | 'time' | 'date-time' | 'email' | 'hostname' | 'ipv4' | 'ipv6' |
   'uri' | 'uri-reference' | 'uri-template' | 'url' | 'uuid' | 'color' |
-  'json-pointer' | 'relative-json-pointer' | 'regex';
+  'json-pointer' | 'relative-json-pointer' | 'regex' | 'input';
