@@ -35,11 +35,9 @@ export class TeepeeFormComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnDestroy(): void {
-    throw new Error("Method not implemented.");
   }
 
   ngOnInit(): void {
-    throw new Error("Method not implemented.");
   }
 
 

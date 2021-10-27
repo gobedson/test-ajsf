@@ -1,9 +1,64 @@
 import { Directive, Inject, Input, NgZone, OnDestroy, OnInit, Optional } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { JsonSchemaFormService } from 'src/assets/ajsf-10.0.0/ajsf-core/src/public_api';
+import { each } from 'lodash';
+import { debounceTime, distinctUntilChanged, map, skip, tap } from 'rxjs/operators';
 
+enum OBJECT_RULE_TYPES {
+    property = 'property',
+    constance = 'constance'
+}
+  
+enum RULE_TYPES {
+    SimpleRule = 'SimpleRule',
+    Group = 'Group',
+}
+
+enum OPERATORS {
+  or = '||',
+  and = '&&'
+}
+
+enum CONDITIONS {
+  greaterThan = '>',
+  equalOrGreaterThan = '>=',
+  lessThan = '<',
+  equalOrLessThan = '<=',
+  equal = '==',
+  different = '!='
+}
+
+interface IPropertyField {
+  format: string;
+  is: string;
+  name: string;
+  type: OBJECT_RULE_TYPES;
+  value: unknown;
+}
+
+interface IConstanceField {
+  constance: unknown;
+  name: string;
+  type: OBJECT_RULE_TYPES;
+  value: unknown;
+}
+
+export type Field = IPropertyField | IConstanceField;
+
+interface ISimpleRule {
+  condition: CONDITIONS;
+  obj1selected: Field;
+  obj2selected: Field;
+  type: RULE_TYPES;
+}
+
+interface IGroup {
+  type: RULE_TYPES;
+  rules?: ISimpleRule[];
+  operator?: OPERATORS;
+}
 @Directive()
 export class TeepeeComponent implements OnInit, OnDestroy {
 
@@ -51,9 +106,11 @@ export class TeepeeComponent implements OnInit, OnDestroy {
 
   type: any;
 
-  rules: any[];
+  rules: any;
 
   subToDestroy: Subscription[] = [];
+
+  public isVisible$: Observable<boolean> = of(false);
 
   // initResult: any;
 
@@ -70,7 +127,7 @@ export class TeepeeComponent implements OnInit, OnDestroy {
     @Inject(MAT_FORM_FIELD_DEFAULT_OPTIONS)
     @Optional()
     public matFormFieldDefaultOptions,
-    @Inject(MAT_LABEL_GLOBAL_OPTIONS)
+    @Inject(MAT_FORM_FIELD_DEFAULT_OPTIONS)
     @Optional()
     public matLabelGlobalOptions,
     protected readonly _ngZone: NgZone,
@@ -92,24 +149,68 @@ export class TeepeeComponent implements OnInit, OnDestroy {
       this.options.description = this.options.placeholder;
     }
 
-    this.options.querybuildercontent?.rules.forEach((rule) => {
-      if (rule.obj1selected) {
-        this.rules.push(rule.obj1selected.value);
-      }
-    });
-    this.type = this.options.typeFormat ? this.options.typeFormat : this.layoutNode.type;
-    this.refreshVisibility();
-
-    if (
-      (this.layoutNode.type as string).toLowerCase() ===
-      (this.options?.title as string)?.toLowerCase()
-    ) {
-      this.options.title = '';
+    if (this.options.querybuildercontent.rules.length > 0) {
+      this.rules = this.options.querybuildercontent.rules.map((rule) => {
+        return rule;
+      });
     }
 
-    this.jsf.updateValue(this, this.controlValue);
+    this.type = this.options.typeFormat ? this.options.typeFormat : this.layoutNode.type;
+
+    this.isVisible$ = this.jsf.formGroup.valueChanges.pipe(
+      // Can use debounceTime
+      // Can use distinctUntilChanged
+      map((values) => {
+        const dataMapped: Map<string, unknown> = new Map(Object.entries(values));
+
+        if (this.rules.length > 0 && this.options.typeFormat === 'string') {
+          const condition: string = this.computeConditions(this.options.querybuildercontent, this.options.name, dataMapped);
+          return eval(condition);
+        }
+
+        if (this.rules.length > 0 && this.options.typeFormat === 'array') {
+          // type Array
+        }
+
+        return true;
+      })
+    );
   }
 
+  private computeConditions(querybuildercontent: IGroup, dependOn: string, dataMapped: Map<string, unknown>): string {
+    let conditions: unknown[] = this.checkOperator(querybuildercontent.rules, dependOn, dataMapped);
+    conditions.splice(1, 0, querybuildercontent.operator);
+    return conditions.join('');
+  }
+
+  private checkOperator(rules: IGroup | ISimpleRule[], dependOn: string, dataMapped: Map<string, unknown>): unknown[] {
+    return (rules as ISimpleRule[]).map((rule: ISimpleRule) => {
+      if (rule.type === RULE_TYPES.SimpleRule) {
+        return this.checkCondition(rule, dataMapped);
+      }
+
+      if (rule.type === RULE_TYPES.Group) {
+        return this.computeConditions(rule, dependOn, dataMapped);
+      }
+    })
+  }
+
+  private checkCondition(rule: ISimpleRule, dataMapped: Map<string, unknown>): boolean {
+    let obj1: unknown = rule.obj1selected.type === OBJECT_RULE_TYPES.property ? dataMapped.get(rule.obj1selected.name) : rule.obj1selected[OBJECT_RULE_TYPES.constance];
+    let obj2: unknown = rule.obj2selected.type === OBJECT_RULE_TYPES.property ? dataMapped.get(rule.obj2selected.name) : rule.obj2selected[OBJECT_RULE_TYPES.constance];
+
+    // If model is an empty object it will return 'undefined' and break the logic
+    if (obj1 === null) { obj1 = ''; }
+    if (obj2 === null) { obj2 = ''; }
+
+    if (rule.condition === CONDITIONS.equal) {
+      return obj1 === obj2;
+    }
+
+    if (rule.condition === CONDITIONS.different) {
+      return obj1 !== obj2;
+    }
+  }
 
   ngOnDestroy(): void {
     this.subToDestroy.forEach((sub) => sub.unsubscribe());

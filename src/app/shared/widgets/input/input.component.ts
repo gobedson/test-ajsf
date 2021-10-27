@@ -1,5 +1,4 @@
-import { Component, Inject, NgZone, Optional } from '@angular/core';
-import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
+import { Component, Inject, Input, NgZone, Optional } from '@angular/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
@@ -13,19 +12,22 @@ import { TeepeeComponent } from '../../teepeeComponent';
   styleUrls: ['./input.component.scss'],
 })
 export class InputComponent extends TeepeeComponent {
+  @Input() layoutNode: any;
+  @Input() layoutIndex: number[];
+  @Input() dataIndex: number[];
+  
   id: string;
-
   inputUpdate = new Subject<string>();
 
   constructor(
     @Inject(MAT_FORM_FIELD_DEFAULT_OPTIONS)
     @Optional()
     public matFormFieldDefaultOptions,
-    @Inject(MAT_LABEL_GLOBAL_OPTIONS)
+    @Inject(MAT_FORM_FIELD_DEFAULT_OPTIONS)
     @Optional()
     public matLabelGlobalOptions,
     protected readonly _ngZone: NgZone,
-    protected readonly jsf: JsonSchemaFormService,
+    public readonly jsf: JsonSchemaFormService,
   ) {
     super(
       matFormFieldDefaultOptions,
@@ -42,8 +44,8 @@ export class InputComponent extends TeepeeComponent {
     // eslint-disable-next-line no-underscore-dangle
     this.id = `controltext${this.layoutNode?._id}`;
     this.type = this.options.typeFormat ? this.options.typeFormat : this.layoutNode.type;
-    this.inputUpdate.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((value) => {
-      this.updateValue(value);
-    });
+    // this.inputUpdate.pipe(debounceTime(1000), distinctUntilChanged()).subscribe((value) => {
+    //   this.updateValue(value);
+    // });
   }
 }

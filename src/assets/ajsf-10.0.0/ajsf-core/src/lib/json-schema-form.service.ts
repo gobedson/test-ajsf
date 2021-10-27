@@ -282,9 +282,9 @@ export class JsonSchemaFormService {
       if (this.formValueSubscription) {
         this.formValueSubscription.unsubscribe();
       }
-      this.formValueSubscription = this.formGroup.valueChanges.subscribe(
-        formValue => this.validateData(formValue)
-      );
+      // this.formValueSubscription = this.formGroup.valueChanges.subscribe(
+      //   formValue => this.validateData(formValue)
+      // );
     }
   }
 
@@ -494,38 +494,47 @@ export class JsonSchemaFormService {
   evaluateCondition(layoutNode: any, dataIndex: number[]): boolean {
     const arrayIndex = dataIndex && dataIndex[dataIndex.length - 1];
     let result = true;
-    if (hasValue((layoutNode.options || {}).condition)) {
-      if (typeof layoutNode.options.condition === 'string') {
-        let pointer = layoutNode.options.condition;
-        if (hasValue(arrayIndex)) {
-          pointer = pointer.replace('[arrayIndex]', `[${arrayIndex}]`);
-        }
-        pointer = JsonPointer.parseObjectPath(pointer);
-        result = !!JsonPointer.get(this.data, pointer);
-        if (!result && pointer[0] === 'model') {
-          result = !!JsonPointer.get({ model: this.data }, pointer);
-        }
-      } else if (typeof layoutNode.options.condition === 'function') {
-        result = layoutNode.options.condition(this.data);
-      } else if (
-        typeof layoutNode.options.condition.functionBody === 'string'
-      ) {
-        try {
-          const dynFn = new Function(
-            'model',
-            'arrayIndices',
-            layoutNode.options.condition.functionBody
-          );
-          result = dynFn(this.data, dataIndex);
-        } catch (e) {
-          result = true;
-          console.error(
-            'condition functionBody errored out on evaluation: ' +
-            layoutNode.options.condition.functionBody
-          );
-        }
-      }
-    }
+
+    // const layoutHasRules = layoutNode.options && layoutNode.options.hasOwnProperty('querybuildercontent') && 
+
+    // if () {
+
+    // }
+
+    // if (layoutNode.options && layoutNode.options.hasOwnProperty('querybuildercontent')) {
+    //   if (typeof layoutNode.options.condition === 'string') {
+    //     let pointer = layoutNode.options.condition;
+    //     if (hasValue(arrayIndex)) {
+    //       pointer = pointer.replace('[arrayIndex]', `[${arrayIndex}]`);
+    //     }
+    //     pointer = JsonPointer.parseObjectPath(pointer);
+    //     result = !!JsonPointer.get(this.data, pointer);
+    //     if (!result && pointer[0] === 'model') {
+    //       result = !!JsonPointer.get({ model: this.data }, pointer);
+    //     }
+    //   } else if (typeof layoutNode.options.condition === 'function') {
+    //     result = layoutNode.options.condition(this.data);
+    //   } else if (
+    //     typeof layoutNode.options.condition.functionBody === 'string'
+    //   ) {
+    //     try {
+    //       const dynFn = new Function(
+    //         'model',
+    //         'arrayIndices',
+    //         layoutNode.options.condition.functionBody
+    //       );
+
+    //       result = dynFn(this.data, dataIndex);
+    //     } catch (e) {
+    //       result = true;
+    //       console.error(
+    //         'condition functionBody errored out on evaluation: ' +
+    //         layoutNode.options.condition.functionBody
+    //       );
+    //     }
+    //   }
+    // }
+
     return result;
   }
 
@@ -555,21 +564,21 @@ export class JsonSchemaFormService {
         this.formOptions.validateOnRender === true ||
         (this.formOptions.validateOnRender === 'auto' &&
           hasValue(ctx.controlValue));
-      ctx.formControl.statusChanges.subscribe(
-        status =>
-          (ctx.options.errorMessage =
-            status === 'VALID'
-              ? null
-              : this.formatErrors(
-                ctx.formControl.errors,
-                ctx.options.validationMessages
-              ))
-      );
-      ctx.formControl.valueChanges.subscribe(value => {
-        if (!!value) {
-          ctx.controlValue = value;
-        }
-      });
+      // ctx.formControl.statusChanges.subscribe(
+      //   status =>
+      //     (ctx.options.errorMessage =
+      //       status === 'VALID'
+      //         ? null
+      //         : this.formatErrors(
+      //           ctx.formControl.errors,
+      //           ctx.options.validationMessages
+      //         ))
+      // );
+      // // ctx.formControl.valueChanges.subscribe(value => {
+      // //   if (!!value) {
+      // //     ctx.controlValue = value;
+      // //   }
+      // // });
     } else {
       ctx.controlName = ctx.layoutNode.name;
       ctx.controlValue = ctx.layoutNode.value || null;
